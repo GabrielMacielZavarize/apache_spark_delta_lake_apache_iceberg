@@ -1,0 +1,17 @@
+[project]
+name = "apache_spark_delta_lake_apache_iceberg"
+version = "0.1.0"
+description = "Apache Spark com Delta Lake e Apache Iceberg - SATC Arquitetura de Dados"
+requires-python = ">=3.11"
+
+dependencies = [
+    "pyspark==3.5.1",
+    "delta-spark==3.2.0",
+    "jupyterlab>=4.0",
+    "ipykernel>=6.0",
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.0",
+]
+
+[tool.uv]
+dev-dependencies = []

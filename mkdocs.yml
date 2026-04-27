@@ -1,0 +1,43 @@
+site_name: Apache Spark + Delta Lake + Iceberg
+site_description: Trabalho de Pesquisa - Engenharia de Dados | SATC
+site_author: Trabalho de Pesquisa - Engenharia de Dados | SATC
+repo_url: https://github.com/GabrielMacielZavarize/apache_spark_delta_lake_apache_iceberg
+repo_name: apache_spark_delta_lake_apache_iceberg
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Modo escuro
+    - scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+
+nav:
+  - Início: index.md
+  - Apache Spark: spark.md
+  - Delta Lake: delta.md
+  - Apache Iceberg: iceberg.md
