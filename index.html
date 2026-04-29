@@ -700,7 +700,7 @@
 </table>
 <hr />
 <h2 id="cenario-de-negocio">📦 Cenário de Negócio</h2>
-<p>Os dados utilizados são do <strong><a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce">Brazilian E-Commerce Public Dataset by Olist</a></strong> (Kaggle), um dataset real de e-commerce brasileiro com pedidos, clientes e entregas anonimizados — licença CC-BY-NC-SA-4.0.</p>
+<p>Os dados utilizados são do <strong><a href="https://www.kaggle.com/datasets/vivek468/superstore-dataset-final">Superstore Dataset (vivek468)</a></strong> (Kaggle), um dataset real de varejo norte-americano com vendas de móveis, material de escritório e tecnologia.</p>
 <p>Trabalhamos com duas tabelas extraídas desse dataset:</p>
 <table>
 <thead>
@@ -714,26 +714,26 @@
 <tr>
 <td><code>clientes</code></td>
 <td>Cadastro de compradores</td>
-<td><code>customer_id</code>, <code>customer_city</code>, <code>customer_state</code></td>
+<td><code>customer_id</code>, <code>customer_name</code>, <code>city</code>, <code>state</code></td>
 </tr>
 <tr>
 <td><code>pedidos</code></td>
 <td>Registro de compras</td>
-<td><code>order_id</code>, <code>customer_id</code>, <code>order_status</code>, <code>order_purchase_timestamp</code></td>
+<td><code>order_id</code>, <code>customer_id</code>, <code>product_name</code>, <code>category</code>, <code>sales</code>, <code>profit</code></td>
 </tr>
 </tbody>
 </table>
-<p>O cenário simula operações reais de um data lake de e-commerce:</p>
+<p>O cenário simula operações reais de um data lake de varejo:</p>
 <ul>
 <li><strong>INSERT</strong> — carga inicial dos dados do CSV para o Delta/Iceberg</li>
-<li><strong>UPDATE</strong> — pedidos com status <code>processing</code> são aprovados (<code>approved</code>)</li>
-<li><strong>DELETE</strong> — pedidos <code>canceled</code> são removidos</li>
+<li><strong>UPDATE</strong> — pedidos <code>Second Class</code> são promovidos para <code>First Class</code></li>
+<li><strong>DELETE</strong> — pedidos com <code>profit &lt; 0</code> (prejuízo) são removidos</li>
 <li><strong>MERGE</strong> — atualização e inserção simultânea via upsert</li>
 <li><strong>Time Travel</strong> — consulta ao estado anterior dos dados</li>
 </ul>
 <hr />
 <h2 id="arquitetura-do-projeto">🏗️ Arquitetura do Projeto</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>CSV (Kaggle Olist)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>CSV (Kaggle Superstore)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>       │
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>       ▼
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a> spark.read.csv()
@@ -757,7 +757,7 @@
 <li><strong>Apache Spark 3.5.1</strong></li>
 <li><strong>Delta Lake 3.2.0</strong></li>
 <li><strong>Apache Iceberg 1.5.0</strong> (via JAR Maven)</li>
-<li><strong>Kaggle Olist Dataset</strong> como fonte de dados real</li>
+<li><strong>Kaggle Superstore Dataset</strong> como fonte de dados real</li>
 <li><strong>JupyterLab</strong> para notebooks interativos</li>
 <li><strong>MkDocs Material</strong> para documentação</li>
 </ul>

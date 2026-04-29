@@ -483,15 +483,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fonte-de-dados-kaggle-olist" class="md-nav__link">
+  <a href="#fonte-de-dados-kaggle-superstore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fonte de Dados — Kaggle Olist
+        Fonte de Dados — Kaggle Superstore
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Fonte de Dados — Kaggle Olist">
+    <nav class="md-nav" aria-label="Fonte de Dados — Kaggle Superstore">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -721,15 +721,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fonte-de-dados-kaggle-olist" class="md-nav__link">
+  <a href="#fonte-de-dados-kaggle-superstore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fonte de Dados — Kaggle Olist
+        Fonte de Dados — Kaggle Superstore
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Fonte de Dados — Kaggle Olist">
+    <nav class="md-nav" aria-label="Fonte de Dados — Kaggle Superstore">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -933,41 +933,50 @@
 </tbody>
 </table>
 <hr />
-<h2 id="fonte-de-dados-kaggle-olist">Fonte de Dados — Kaggle Olist</h2>
-<p>Os dados utilizados neste projeto vêm do <strong><a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce">Brazilian E-Commerce Public Dataset by Olist</a></strong>, um dataset real de e-commerce brasileiro disponível no Kaggle (licença CC-BY-NC-SA-4.0).</p>
+<h2 id="fonte-de-dados-kaggle-superstore">Fonte de Dados — Kaggle Superstore</h2>
+<p>Os dados utilizados neste projeto vêm do <strong><a href="https://www.kaggle.com/datasets/vivek468/superstore-dataset-final">Superstore Dataset (vivek468)</a></strong>, um dataset de varejo norte-americano com vendas de Furniture, Office Supplies e Technology.</p>
 <h3 id="modelo-er">Modelo ER</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌────────────────────────────┐       ┌──────────────────────────────────────────┐
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│         clientes           │       │                 pedidos                  │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│────────────────────────────│       │──────────────────────────────────────────│
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│ customer_id (PK)           │──────&lt;│ order_id (PK)                            │
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│ customer_unique_id         │       │ customer_id (FK)                         │
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│ customer_zip_code_prefix   │       │ order_status                             │
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│ customer_city              │       │ order_purchase_timestamp                 │
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│ customer_state             │       │ order_approved_at                        │
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└────────────────────────────┘       │ order_delivered_carrier_date             │
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                                     │ order_delivered_customer_date            │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                                     │ order_estimated_delivery_date            │
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>                                     └──────────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────┐       ┌────────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│      clientes       │       │             pedidos                │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│─────────────────────│       │────────────────────────────────────│
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│ customer_id (PK)    │──────&lt;│ order_id                           │
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│ customer_name       │       │ customer_id (FK)                   │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│ segment             │       │ order_date                         │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│ city                │       │ ship_date                          │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│ state               │       │ ship_mode                          │
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│ region              │       │ product_name                       │
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>└─────────────────────┘       │ category                           │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                              │ sub_category                       │
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>                              │ sales      DOUBLE                  │
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>                              │ quantity   INT                     │
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>                              │ discount   DOUBLE                  │
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>                              │ profit     DOUBLE                  │
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>                              └────────────────────────────────────┘
 </code></pre></div>
 <h3 id="ddl">DDL</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">clientes</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">customer_id</span><span class="w">              </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">customer_unique_id</span><span class="w">       </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">customer_zip_code_prefix</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">customer_city</span><span class="w">            </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">customer_state</span><span class="w">           </span><span class="n">STRING</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">);</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">pedidos</span><span class="w"> </span><span class="p">(</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">order_id</span><span class="w">                       </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">customer_id</span><span class="w">                    </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">order_status</span><span class="w">                   </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="n">order_purchase_timestamp</span><span class="w">       </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="n">order_approved_at</span><span class="w">              </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">order_delivered_carrier_date</span><span class="w">   </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="n">order_delivered_customer_date</span><span class="w">  </span><span class="n">STRING</span><span class="p">,</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="n">order_estimated_delivery_date</span><span class="w">  </span><span class="n">STRING</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">);</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">customer_id</span><span class="w">   </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">customer_name</span><span class="w"> </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">segment</span><span class="w">       </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">city</span><span class="w">          </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">state</span><span class="w">         </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">region</span><span class="w">        </span><span class="n">STRING</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">pedidos</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">order_id</span><span class="w">      </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">customer_id</span><span class="w">   </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="n">order_date</span><span class="w">    </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="n">ship_date</span><span class="w">     </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">ship_mode</span><span class="w">     </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="n">product_name</span><span class="w">  </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="n">category</span><span class="w">      </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="n">sub_category</span><span class="w">  </span><span class="n">STRING</span><span class="p">,</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="n">sales</span><span class="w">         </span><span class="n">DOUBLE</span><span class="p">,</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="n">quantity</span><span class="w">      </span><span class="nb">INT</span><span class="p">,</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">discount</span><span class="w">      </span><span class="n">DOUBLE</span><span class="p">,</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">profit</span><span class="w">        </span><span class="n">DOUBLE</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">);</span>
 </code></pre></div>
 <hr />
 <h2 id="configuracao-com-pyspark">Configuração com PySpark</h2>
@@ -976,7 +985,7 @@
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">builder</span> <span class="o">=</span> <span class="p">(</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Delta Lake - Olist E-commerce&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Delta Lake - Superstore&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.extensions&quot;</span><span class="p">,</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>            <span class="s2">&quot;io.delta.sql.DeltaSparkSessionExtension&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.sql.catalog.spark_catalog&quot;</span><span class="p">,</span>
@@ -988,81 +997,88 @@
 <hr />
 <h2 id="operacoes-dml">Operações DML</h2>
 <h3 id="insert-leitura-do-csv-e-gravacao-no-delta-lake">INSERT — Leitura do CSV e gravação no Delta Lake</h3>
-<p>O Spark lê os arquivos CSV reais do Kaggle Olist e os persiste como tabela Delta no disco. A partir desse momento os dados passam a ter controle transacional ACID.</p>
+<p>O Spark lê os arquivos CSV do Kaggle Superstore e os persiste como tabela Delta no disco. A partir desse momento os dados passam a ter controle transacional ACID.</p>
+<p>No Delta Lake, o INSERT é feito pelo método <code>write.format("delta")</code> da API Python do Spark. O primeiro <code>write</code> cria a tabela <strong>e</strong> insere os dados ao mesmo tempo, registrando a operação como <code>WRITE</code> no <code>_delta_log/</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">DATA_RAW</span>   <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">DELTA_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">DATA_RAW</span>   <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;raw&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">DELTA_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">)</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Ler amostra real do Kaggle Olist</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">df_pedidos</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_RAW</span><span class="p">,</span> <span class="s2">&quot;sample_pedidos.csv&quot;</span><span class="p">),</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># Gravar como tabela Delta</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">df_pedidos</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">df_clientes</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_RAW</span><span class="p">,</span> <span class="s2">&quot;sample_clientes.csv&quot;</span><span class="p">),</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">df_pedidos</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_RAW</span><span class="p">,</span> <span class="s2">&quot;sample_pedidos.csv&quot;</span><span class="p">),</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">df_clientes</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/clientes&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">df_pedidos</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="s2">&quot;overwrite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span> \
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;order_id&quot;</span><span class="p">,</span> <span class="s2">&quot;customer_id&quot;</span><span class="p">,</span> <span class="s2">&quot;product_name&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span> <span class="s2">&quot;sales&quot;</span><span class="p">,</span> <span class="s2">&quot;profit&quot;</span><span class="p">,</span> <span class="s2">&quot;ship_mode&quot;</span><span class="p">)</span> \
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Resultado:</strong> 20 pedidos gravados com status <code>processing</code>, <code>delivered</code> e <code>canceled</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+--------------------+--------------------+------------+
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>|            order_id|         customer_id|order_status|
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+--------------------+--------------------+------------+
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>|e481f51cbdc54678b...|06b8999e2fba1a1fb...|   delivered|
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>|53cdb2fc8bc7dce0b...|b0830fb4747a6c6d2...|  processing|
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>|47770eb9100c2d0c2...|41ce2a54c0b03bf34...|    canceled|
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>+--------------------+--------------------+------------+
+<p><strong>Resultado — dados lidos de volta do Delta para confirmar a inserção:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+----------------+---------+-------------------------------+----------+-------+------+-------------+
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>|        order_id|customer_|                   product_name|  category|  sales|profit|    ship_mode|
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+----------------+---------+-------------------------------+----------+-------+------+-------------+
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>|CA-2016-152156  |CG-12520 |Bush Somerset Collection Book..|Furniture | 261.96| 41.91|Second Class |
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>|CA-2016-152156  |CG-12520 |Hon Deluxe Fabric Upholstered ..|Furniture |  731.9|219.58|Second Class |
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>|CA-2016-138688  |DV-13045 |Self-Adhesive Address Labels f..|Office Su..| 14.62|  6.87|Second Class |
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>+----------------+---------+-------------------------------+----------+-------+------+-------------+
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>(20 rows)
 </code></pre></div>
 <hr />
 <h3 id="update">UPDATE</h3>
-<p>O <code>UPDATE</code> modifica registros que atendem a uma condição, sem reescrever toda a tabela. O Delta Lake registra a operação no <code>_delta_log</code> e marca os arquivos antigos como obsoletos.</p>
+<p>O <code>UPDATE</code> modifica registros que atendem a uma condição. O Delta Lake registra a operação no <code>_delta_log</code> e marca os arquivos antigos como obsoletos.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">delta.tables</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeltaTable</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">lit</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">delta_pedidos</span> <span class="o">=</span> <span class="n">DeltaTable</span><span class="o">.</span><span class="n">forPath</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Todos os pedidos &#39;processing&#39; passam para &#39;approved&#39;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">condition</span> <span class="o">=</span> <span class="n">col</span><span class="p">(</span><span class="s2">&quot;order_status&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;processing&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="nb">set</span>       <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;order_status&quot;</span><span class="p">:</span> <span class="n">lit</span><span class="p">(</span><span class="s2">&quot;approved&quot;</span><span class="p">)}</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">condition</span> <span class="o">=</span> <span class="n">col</span><span class="p">(</span><span class="s2">&quot;ship_mode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Second Class&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="nb">set</span>       <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ship_mode&quot;</span><span class="p">:</span> <span class="n">lit</span><span class="p">(</span><span class="s2">&quot;First Class&quot;</span><span class="p">)}</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">)</span>
 </code></pre></div>
-<p><strong>Antes →</strong> 10 pedidos com <code>processing</code><br />
-<strong>Depois →</strong> 0 pedidos com <code>processing</code>, todos agora <code>approved</code></p>
+<p><strong>Antes →</strong> 10 pedidos com <code>Second Class</code><br />
+<strong>Depois →</strong> 0 pedidos com <code>Second Class</code>, todos agora <code>First Class</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>+--------------+-------+
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>|  order_status|  total|
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>|     ship_mode|  count|
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>+--------------+-------+
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>|     delivered|      5|
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>|      approved|     10|  ← eram &#39;processing&#39;
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>|      canceled|      5|
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>+--------------+-------+
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>|   First Class|     20|  ← eram &#39;Second Class&#39; + já eram &#39;First Class&#39;
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>|Standard Class|     10|
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>+--------------+-------+
 </code></pre></div>
 <hr />
 <h3 id="delete">DELETE</h3>
-<p>O <code>DELETE</code> remove fisicamente os registros que atendem à condição. No Delta Lake, os dados removidos ainda ficam acessíveis via <strong>Time Travel</strong> (versão anterior).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Remover todos os pedidos com status &#39;canceled&#39;</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">condition</span> <span class="o">=</span> <span class="n">col</span><span class="p">(</span><span class="s2">&quot;order_status&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;canceled&quot;</span><span class="p">)</span>
+<p>O <code>DELETE</code> remove os registros que atendem à condição. No Delta Lake, os dados removidos ainda ficam acessíveis via <strong>Time Travel</strong> (versão anterior).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">condition</span> <span class="o">=</span> <span class="n">col</span><span class="p">(</span><span class="s2">&quot;profit&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Antes →</strong> 20 pedidos (5 <code>canceled</code>)<br />
-<strong>Depois →</strong> 15 pedidos (todos <code>delivered</code> ou <code>approved</code>)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>+--------------+-------+
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>|  order_status|  total|
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>+--------------+-------+
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>|     delivered|      5|
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>|      approved|     10|
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>+--------------+-------+
+<p><strong>Antes →</strong> 20 pedidos (6 com <code>profit &lt; 0</code>)<br />
+<strong>Depois →</strong> 14 pedidos (apenas registros com lucro positivo)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>+-----------------------------+-------+
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>|           product_name      | profit|
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>+-----------------------------+-------+
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>|Bush Somerset Bookcase       |  41.91|
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>|Hon Deluxe Chair             | 219.58|
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>|Apple MacBook Air            | 247.50|
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>+-----------------------------+-------+
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>(14 rows)
 </code></pre></div>
 <hr />
 <h3 id="merge-upsert">MERGE (UPSERT)</h3>
 <p>O <code>MERGE</code> combina UPDATE e INSERT em uma única operação atômica: se o registro já existe, atualiza; se não existe, insere.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Atualizar se existir, inserir se não existir</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;destino&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">df_novos</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;origem&quot;</span><span class="p">),</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="s2">&quot;destino.order_id = origem.order_id&quot;</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">)</span><span class="o">.</span><span class="n">whenMatchedUpdateAll</span><span class="p">(</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">)</span><span class="o">.</span><span class="n">whenNotMatchedInsertAll</span><span class="p">(</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">delta_pedidos</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;destino&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">df_merge</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;origem&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="s2">&quot;destino.order_id = origem.order_id AND destino.product_name = origem.product_name&quot;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span><span class="o">.</span><span class="n">whenMatchedUpdateAll</span><span class="p">(</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">)</span><span class="o">.</span><span class="n">whenNotMatchedInsertAll</span><span class="p">(</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 </code></pre></div>
-<p><strong>Resultado:</strong> 1 pedido existente teve o status atualizado para <code>invoiced</code>, 1 pedido novo foi inserido com status <code>processing</code>.</p>
+<p><strong>Resultado:</strong> 1 pedido existente teve a quantidade incrementada em +1, 1 pedido novo (<code>Apple MacBook Pro 16"</code>) foi inserido.</p>
 <hr />
 <h2 id="time-travel">Time Travel</h2>
 <p>Um dos recursos mais poderosos do Delta Lake — voltar a versões anteriores dos dados.</p>
@@ -1073,11 +1089,6 @@
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">df_v0</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span> \
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;versionAsOf&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> \
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1"># Ler por timestamp</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">df_ts</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span> \
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;timestampAsOf&quot;</span><span class="p">,</span> <span class="s2">&quot;2024-01-10&quot;</span><span class="p">)</span> \
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DELTA_PATH</span><span class="si">}</span><span class="s2">/pedidos&quot;</span><span class="p">)</span>
 </code></pre></div>
 <hr />
 <h2 id="estrutura-de-arquivos-no-storage">Estrutura de Arquivos no Storage</h2>
