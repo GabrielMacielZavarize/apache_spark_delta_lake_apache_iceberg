@@ -11,11 +11,66 @@
 Sem Delta Lake, um Data Lake pode ter problemas sérios:
 
 | Problema | Com Data Lake puro | Com Delta Lake |
-|---|---|---|
+| --- | --- | --- |
 | Falha no meio de uma escrita | Dados corrompidos | Transação revertida automaticamente |
 | Múltiplos escritores simultâneos | Race condition | Serializable isolation |
 | Ler dados enquanto escreve | Leitura inconsistente | Snapshot isolation |
 | Erro humano (delete errado) | Irrecuperável | Time travel recupera |
+
+---
+
+## Fonte de Dados — Kaggle Superstore
+
+Os dados utilizados neste projeto vêm do **[Superstore Dataset (vivek468)](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)**, um dataset de varejo norte-americano com vendas de Furniture, Office Supplies e Technology.
+
+### Modelo ER
+
+```text
+┌─────────────────────┐       ┌────────────────────────────────────┐
+│      clientes       │       │             pedidos                │
+│─────────────────────│       │────────────────────────────────────│
+│ customer_id (PK)    │──────<│ order_id                           │
+│ customer_name       │       │ customer_id (FK)                   │
+│ segment             │       │ order_date                         │
+│ city                │       │ ship_date                          │
+│ state               │       │ ship_mode                          │
+│ region              │       │ product_name                       │
+└─────────────────────┘       │ category                           │
+                              │ sub_category                       │
+                              │ sales      DOUBLE                  │
+                              │ quantity   INT                     │
+                              │ discount   DOUBLE                  │
+                              │ profit     DOUBLE                  │
+                              └────────────────────────────────────┘
+```
+
+### DDL
+
+```sql
+CREATE TABLE clientes (
+    customer_id   STRING,
+    customer_name STRING,
+    segment       STRING,
+    city          STRING,
+    state         STRING,
+    region        STRING
+);
+
+CREATE TABLE pedidos (
+    order_id      STRING,
+    customer_id   STRING,
+    order_date    STRING,
+    ship_date     STRING,
+    ship_mode     STRING,
+    product_name  STRING,
+    category      STRING,
+    sub_category  STRING,
+    sales         DOUBLE,
+    quantity      INT,
+    discount      DOUBLE,
+    profit        DOUBLE
+);
+```
 
 ---
 
@@ -27,7 +82,7 @@ from pyspark.sql import SparkSession
 
 builder = (
     SparkSession.builder
-    .appName("Delta Lake")
+    .appName("Delta Lake - Superstore")
     .config("spark.sql.extensions",
             "io.delta.sql.DeltaSparkSessionExtension")
     .config("spark.sql.catalog.spark_catalog",
@@ -41,49 +96,118 @@ spark = configure_spark_with_delta_pip(builder).getOrCreate()
 
 ## Operações DML
 
-### INSERT
+### INSERT — Leitura do CSV e gravação no Delta Lake
+
+O Spark lê os arquivos CSV do Kaggle Superstore e os persiste como tabela Delta no disco. A partir desse momento os dados passam a ter controle transacional ACID.
+
+No Delta Lake, o INSERT é feito pelo método `write.format("delta")` da API Python do Spark. O primeiro `write` cria a tabela **e** insere os dados ao mesmo tempo, registrando a operação como `WRITE` no `_delta_log/`.
 
 ```python
-# Criar e escrever tabela Delta
-dados = [(1, "Notebook", 4500.00, "aprovado")]
-df = spark.createDataFrame(dados, ["id", "produto", "valor", "status"])
+import os
 
-df.write.format("delta").mode("overwrite").save("/tmp/delta/pedidos")
+DATA_RAW   = os.path.join(PROJECT_ROOT, "data", "raw")
+DELTA_PATH = os.path.join(PROJECT_ROOT, "data", "delta")
+
+df_clientes = spark.read.csv(
+    os.path.join(DATA_RAW, "sample_clientes.csv"),
+    header=True, inferSchema=True
+)
+df_pedidos = spark.read.csv(
+    os.path.join(DATA_RAW, "sample_pedidos.csv"),
+    header=True, inferSchema=True
+)
+
+df_clientes.write.format("delta").mode("overwrite").save(f"{DELTA_PATH}/clientes")
+df_pedidos.write.format("delta").mode("overwrite").save(f"{DELTA_PATH}/pedidos")
+
+spark.read.format("delta").load(f"{DELTA_PATH}/pedidos") \
+    .select("order_id", "customer_id", "product_name", "category", "sales", "profit", "ship_mode") \
+    .show(5, truncate=True)
 ```
 
+**Resultado — dados lidos de volta do Delta para confirmar a inserção:**
+
+```text
++----------------+---------+-------------------------------+----------+-------+------+-------------+
+|        order_id|customer_|                   product_name|  category|  sales|profit|    ship_mode|
++----------------+---------+-------------------------------+----------+-------+------+-------------+
+|CA-2016-152156  |CG-12520 |Bush Somerset Collection Book..|Furniture | 261.96| 41.91|Second Class |
+|CA-2016-152156  |CG-12520 |Hon Deluxe Fabric Upholstered ..|Furniture |  731.9|219.58|Second Class |
+|CA-2016-138688  |DV-13045 |Self-Adhesive Address Labels f..|Office Su..| 14.62|  6.87|Second Class |
++----------------+---------+-------------------------------+----------+-------+------+-------------+
+(20 rows)
+```
+
+---
+
 ### UPDATE
+
+O `UPDATE` modifica registros que atendem a uma condição. O Delta Lake registra a operação no `_delta_log` e marca os arquivos antigos como obsoletos.
 
 ```python
 from delta.tables import DeltaTable
 from pyspark.sql.functions import col, lit
 
-delta_tb = DeltaTable.forPath(spark, "/tmp/delta/pedidos")
+delta_pedidos = DeltaTable.forPath(spark, f"{DELTA_PATH}/pedidos")
 
-# Aprovar todos os pedidos pendentes
-delta_tb.update(
-    condition = col("status") == "pendente",
-    set       = {"status": lit("aprovado")}
+delta_pedidos.update(
+    condition = col("ship_mode") == "Second Class",
+    set       = {"ship_mode": lit("First Class")}
 )
 ```
 
+**Antes →** 10 pedidos com `Second Class`  
+**Depois →** 0 pedidos com `Second Class`, todos agora `First Class`
+
+```text
++--------------+-------+
+|     ship_mode|  count|
++--------------+-------+
+|   First Class|     20|  ← eram 'Second Class' + já eram 'First Class'
+|Standard Class|     10|
++--------------+-------+
+```
+
+---
+
 ### DELETE
 
+O `DELETE` remove os registros que atendem à condição. No Delta Lake, os dados removidos ainda ficam acessíveis via **Time Travel** (versão anterior).
+
 ```python
-# Remover pedidos de baixo valor
-delta_tb.delete(condition = col("valor") < 400)
+delta_pedidos.delete(condition = col("profit") < 0)
 ```
+
+**Antes →** 20 pedidos (6 com `profit < 0`)  
+**Depois →** 14 pedidos (apenas registros com lucro positivo)
+
+```text
++-----------------------------+-------+
+|           product_name      | profit|
++-----------------------------+-------+
+|Bush Somerset Bookcase       |  41.91|
+|Hon Deluxe Chair             | 219.58|
+|Apple MacBook Air            | 247.50|
++-----------------------------+-------+
+(14 rows)
+```
+
+---
 
 ### MERGE (UPSERT)
 
+O `MERGE` combina UPDATE e INSERT em uma única operação atômica: se o registro já existe, atualiza; se não existe, insere.
+
 ```python
-# Atualizar se existir, inserir se não existir
-delta_tb.alias("destino").merge(
-    df_novos.alias("origem"),
-    "destino.id = origem.id"
+delta_pedidos.alias("destino").merge(
+    df_merge.alias("origem"),
+    "destino.order_id = origem.order_id AND destino.product_name = origem.product_name"
 ).whenMatchedUpdateAll(
 ).whenNotMatchedInsertAll(
 ).execute()
 ```
+
+**Resultado:** 1 pedido existente teve a quantidade incrementada em +1, 1 pedido novo (`Apple MacBook Pro 16"`) foi inserido.
 
 ---
 
@@ -93,29 +217,25 @@ Um dos recursos mais poderosos do Delta Lake — voltar a versões anteriores do
 
 ```python
 # Ver histórico completo de operações
-delta_tb.history().select("version", "timestamp", "operation").show()
+delta_pedidos.history().select("version", "timestamp", "operation").show()
 
-# Ler versão específica
+# Ler a versão inicial (estado logo após o INSERT)
 df_v0 = spark.read.format("delta") \
     .option("versionAsOf", 0) \
-    .load("/tmp/delta/pedidos")
-
-# Ler por timestamp
-df_ts = spark.read.format("delta") \
-    .option("timestampAsOf", "2024-01-10") \
-    .load("/tmp/delta/pedidos")
+    .load(f"{DELTA_PATH}/pedidos")
 ```
 
 ---
 
 ## Estrutura de Arquivos no Storage
 
-```
-/tmp/delta/pedidos/
-├── _delta_log/                  ← Transaction Log (JSON + Checkpoint)
-│   ├── 00000000000000000000.json
-│   ├── 00000000000000000001.json
-│   └── 00000000000000000010.checkpoint.parquet
+```text
+data/delta/pedidos/
+├── _delta_log/                          ← Transaction Log (JSON)
+│   ├── 00000000000000000000.json        ← versão 0: WRITE (INSERT inicial)
+│   ├── 00000000000000000001.json        ← versão 1: UPDATE
+│   ├── 00000000000000000002.json        ← versão 2: DELETE
+│   └── 00000000000000000003.json        ← versão 3: MERGE
 ├── part-00000-xxxx.snappy.parquet
 └── part-00001-xxxx.snappy.parquet
 ```
@@ -143,7 +263,7 @@ uv pip install delta-spark==3.2.0
 ```
 
 | Spark | Delta Lake |
-|---|---|
+| --- | --- |
 | 3.5.x | 3.2.0 |
 | 3.4.x | 2.4.0 |
 | 3.3.x | 2.3.0 |

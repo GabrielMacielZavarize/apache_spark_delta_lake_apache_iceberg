@@ -9,38 +9,54 @@
 
 | Nome | GitHub |
 |------|--------|
-| Aluno 1 | Gabriel Maciel Zavarize (https://github.com/GabrielMacielZavarize)  |
-| Aluno 2 | Pedro Henrique Harter Marques (https://github.com/PedroHarter)  |
-| Aluno 3 | Wilian Vieira Fernandes (https://github.com/WilianVieiraF) |
+| Gabriel Maciel Zavarize | [GabrielMacielZavarize](https://github.com/GabrielMacielZavarize) |
+| Pedro Henrique Harter Marques | [PedroHarter](https://github.com/PedroHarter) |
+| Wilian Vieira Fernandes | [WilianVieiraF](https://github.com/WilianVieiraF) |
 
 ---
 
 ## 📋 Sobre o Projeto
 
-Este projeto demonstra o uso do **Apache Spark (PySpark)** integrado com dois formatos de tabela open-source para Data Lakehouse:
+Este projeto demonstra o uso do **Apache Spark (PySpark)** integrado com dois formatos de tabela open-source para arquiteturas **Data Lakehouse**:
 
-- **Delta Lake** — formato da Databricks, com suporte a ACID transactions
-- **Apache Iceberg** — formato da Netflix/Apple, com suporte a time travel e schema evolution
+- **Delta Lake** — formato da Databricks, com suporte a ACID transactions e Time Travel
+- **Apache Iceberg** — formato da Netflix/Apple, com suporte a Schema Evolution e Hidden Partitioning
 
-O dataset utilizado é de **vendas de e-commerce**, simulando operações reais de INSERT, UPDATE e DELETE.
+### Fonte de Dados
+
+Os dados utilizados são do **[Superstore Dataset (vivek468)](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)** (Kaggle), um dataset real de varejo norte-americano com vendas de Furniture, Office Supplies e Technology.  
+Utilizamos uma amostra de **20 clientes** e **20 pedidos** armazenada em `data/raw/`.
+
+As tabelas principais são:
+
+| Tabela | Colunas principais |
+| --- | --- |
+| `clientes` | `customer_id`, `customer_name`, `segment`, `city`, `state`, `region` |
+| `pedidos` | `order_id`, `customer_id`, `product_name`, `category`, `sales`, `profit`, `ship_mode` |
 
 ---
 
 ## 🗂️ Estrutura do Projeto
 
-```
-spark-lakehouse/
+```text
+apache_spark_delta_lake_apache_iceberg/
+├── data/
+│   ├── raw/                        # Amostras do dataset Kaggle Superstore
+│   │   ├── sample_clientes.csv     # 20 clientes reais (anonimizados)
+│   │   └── sample_pedidos.csv      # 20 pedidos reais (anonimizados)
+│   ├── delta/                      # Tabelas Delta Lake (geradas ao rodar o notebook)
+│   └── iceberg/                    # Tabelas Apache Iceberg (geradas ao rodar o notebook)
 ├── notebooks/
-│   ├── delta_lake.ipynb        # Notebook com Delta Lake
-│   └── iceberg.ipynb           # Notebook com Apache Iceberg
-├── docs/                       # Documentação MkDocs
+│   ├── delta_lake.ipynb            # Notebook com Delta Lake
+│   └── iceberg.ipynb               # Notebook com Apache Iceberg
+├── docs/                           # Documentação MkDocs
 │   ├── index.md
 │   ├── spark.md
 │   ├── delta.md
 │   └── iceberg.md
 ├── mkdocs.yml
 ├── pyproject.toml
-├── .python-version
+├── .gitignore
 └── README.md
 ```
 
@@ -49,6 +65,7 @@ spark-lakehouse/
 ## ⚙️ Pré-requisitos
 
 ### Sistema Operacional
+
 - Ubuntu 22.04+ (ou WSL2 no Windows)
 
 ### Dependências do sistema
@@ -91,7 +108,7 @@ uv --version
 ### 2. Clonar o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/apache_spark_delta_lake_apache_iceberg.git
+git clone https://github.com/GabrielMacielZavarize/apache_spark_delta_lake_apache_iceberg.git
 cd apache_spark_delta_lake_apache_iceberg
 ```
 
@@ -109,10 +126,10 @@ source .venv/bin/activate
 ### 4. Instalar dependências
 
 ```bash
-uv pip install pyspark==3.5.1 delta-spark==3.2.0 jupyterlab ipykernel
+uv pip install pyspark==3.5.1 delta-spark==3.2.0 jupyterlab ipykernel mkdocs mkdocs-material
 ```
 
-> ⚠️ O Apache Iceberg é configurado via JARs no próprio notebook, não requer instalação separada via pip.
+> ⚠️ O Apache Iceberg é configurado via JAR no próprio notebook — não requer instalação separada via pip.
 
 ### 5. Registrar o kernel no Jupyter
 
@@ -134,20 +151,16 @@ Acesse: [http://localhost:8888](http://localhost:8888)
 
 Abra o JupyterLab e execute na ordem:
 
-1. `notebooks/delta_lake.ipynb` — demonstra Delta Lake com INSERT, UPDATE, DELETE e Time Travel
-2. `notebooks/iceberg.ipynb` — demonstra Apache Iceberg com as mesmas operações
+1. `notebooks/delta_lake.ipynb` — demonstra Delta Lake com INSERT, UPDATE, DELETE, MERGE e Time Travel
+2. `notebooks/iceberg.ipynb` — demonstra Apache Iceberg com as mesmas operações + Schema Evolution
 
-> ✅ Certifique-se de selecionar o kernel **"apache_spark_delta_lake_apache_iceberg"** em cada notebook.
+✅ Selecione o kernel **"apache_spark_delta_lake_apache_iceberg"** em cada notebook.
+
+📁 Os dados gerados (tabelas Delta e Iceberg) ficam em `data/delta/` e `data/iceberg/` — persistem entre sessões.
 
 ---
 
 ## 📚 Documentação MkDocs
-
-### Instalar MkDocs
-
-```bash
-uv pip install mkdocs mkdocs-material
-```
 
 ### Visualizar localmente
 
@@ -163,7 +176,7 @@ Acesse: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 mkdocs gh-deploy
 ```
 
-A documentação ficará disponível em: `https://SEU_USUARIO.github.io/apache_spark_delta_lake_apache_iceberg/`
+A documentação ficará disponível em: `https://GabrielMacielZavarize.github.io/apache_spark_delta_lake_apache_iceberg/`
 
 ---
 
@@ -185,6 +198,7 @@ A documentação ficará disponível em: `https://SEU_USUARIO.github.io/apache_s
 
 ## 📌 Referências
 
+- 📦 [Superstore Dataset (vivek468) — Kaggle](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)
 - 🎥 [Canal DataWay BR (YouTube)](https://www.youtube.com/@datawaybr)
 - 💻 [spark-delta — jlsilva01](https://github.com/jlsilva01/spark-delta)
 - 💻 [spark-iceberg — jlsilva01](https://github.com/jlsilva01/spark-iceberg)

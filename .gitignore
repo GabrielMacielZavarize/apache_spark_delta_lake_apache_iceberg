@@ -1,0 +1,24 @@
+# Ambiente virtual
+.venv/
+
+# Dados gerados (Delta e Iceberg) — regenerados ao rodar os notebooks
+data/delta/
+data/iceberg/
+
+# CSVs originais do Kaggle (grandes demais para git)
+data/raw/olist_customers_dataset.csv
+data/raw/olist_orders_dataset.csv
+
+# Arquivos gerados pelo MkDocs
+site/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Java / Spark
+*.log
+derby.log
+metastore_db/
+spark-warehouse/

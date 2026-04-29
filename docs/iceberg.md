@@ -11,7 +11,7 @@ Hoje é usado também por Apple, Airbnb, LinkedIn e muitas outras empresas.
 ## Iceberg vs Delta Lake
 
 | Característica | Apache Iceberg | Delta Lake |
-|---|---|---|
+| --- | --- | --- |
 | Criado por | Netflix / Apache | Databricks |
 | Licença | Apache 2.0 | Apache 2.0 |
 | Engines suportadas | Spark, Flink, Trino, Hive, Dremio | Spark, Flink |
@@ -23,17 +23,73 @@ Hoje é usado também por Apple, Airbnb, LinkedIn e muitas outras empresas.
 
 ---
 
+## Fonte de Dados — Kaggle Superstore
+
+Os dados utilizados neste projeto vêm do **[Superstore Dataset (vivek468)](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)**, um dataset de varejo norte-americano com vendas de Furniture, Office Supplies e Technology.
+
+### Modelo ER
+
+```text
+┌─────────────────────┐       ┌────────────────────────────────────┐
+│      clientes       │       │             pedidos                │
+│─────────────────────│       │────────────────────────────────────│
+│ customer_id (PK)    │──────<│ order_id                           │
+│ customer_name       │       │ customer_id (FK)                   │
+│ segment             │       │ order_date                         │
+│ city                │       │ ship_date                          │
+│ state               │       │ ship_mode                          │
+│ region              │       │ product_name                       │
+└─────────────────────┘       │ category                           │
+                              │ sub_category                       │
+                              │ sales      DOUBLE                  │
+                              │ quantity   INT                     │
+                              │ discount   DOUBLE                  │
+                              │ profit     DOUBLE                  │
+                              └────────────────────────────────────┘
+```
+
+### DDL
+
+```sql
+CREATE TABLE clientes (
+    customer_id   STRING,
+    customer_name STRING,
+    segment       STRING,
+    city          STRING,
+    state         STRING,
+    region        STRING
+) USING iceberg;
+
+CREATE TABLE pedidos (
+    order_id      STRING,
+    customer_id   STRING,
+    order_date    STRING,
+    ship_date     STRING,
+    ship_mode     STRING,
+    product_name  STRING,
+    category      STRING,
+    sub_category  STRING,
+    sales         DOUBLE,
+    quantity      INT,
+    discount      DOUBLE,
+    profit        DOUBLE
+) USING iceberg
+PARTITIONED BY (category);
+```
+
+---
+
 ## Hidden Partitioning
 
 Um dos maiores diferenciais do Iceberg é o **particionamento oculto** — você define a estratégia de partição, mas a query não precisa incluir o filtro de partição explicitamente.
 
 ```sql
 -- Delta Lake: você PRECISA filtrar pela coluna de partição
-SELECT * FROM pedidos WHERE status = 'aprovado' AND data = '2024-01-10'
+SELECT * FROM pedidos WHERE category = 'Technology' AND ship_mode = 'First Class'
 --                          ↑ obrigatório para usar partição
 
 -- Iceberg: Iceberg descobre a partição automaticamente
-SELECT * FROM pedidos WHERE data = '2024-01-10'
+SELECT * FROM pedidos WHERE ship_mode = 'First Class'
 --                          ↑ Iceberg aplica a partição por trás
 ```
 
@@ -42,10 +98,13 @@ SELECT * FROM pedidos WHERE data = '2024-01-10'
 ## Configuração com PySpark
 
 ```python
+import os
 from pyspark.sql import SparkSession
 
+ICEBERG_PATH = os.path.join(PROJECT_ROOT, "data", "iceberg")
+
 spark = SparkSession.builder \
-    .appName("Iceberg") \
+    .appName("Iceberg - Superstore") \
     .config("spark.jars.packages",
             "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0") \
     .config("spark.sql.extensions",
@@ -53,62 +112,116 @@ spark = SparkSession.builder \
     .config("spark.sql.catalog.local",
             "org.apache.iceberg.spark.SparkCatalog") \
     .config("spark.sql.catalog.local.type", "hadoop") \
-    .config("spark.sql.catalog.local.warehouse", "/tmp/iceberg/warehouse") \
+    .config("spark.sql.catalog.local.warehouse", ICEBERG_PATH) \
+    .config("spark.sql.defaultCatalog", "local") \
     .getOrCreate()
-```
-
----
-
-## Criando Tabelas Iceberg
-
-```sql
--- DDL via Spark SQL
-CREATE TABLE local.ecommerce.pedidos (
-    id_pedido   INT,
-    produto     STRING,
-    valor_total DOUBLE,
-    status      STRING,
-    data_pedido STRING
-) USING iceberg
-PARTITIONED BY (status)
 ```
 
 ---
 
 ## Operações DML
 
-### INSERT
+### INSERT — Leitura do CSV e carga no Iceberg
 
-```sql
-INSERT INTO local.ecommerce.pedidos VALUES
-(101, 'Notebook Dell', 4500.00, 'aprovado', '2024-01-10'),
-(102, 'iPhone 15',     5800.00, 'aprovado', '2024-01-11')
+O Spark lê os arquivos CSV do Kaggle Superstore e os insere na tabela Iceberg via SQL puro. O Iceberg automaticamente organiza os dados nas partições por `category` (Furniture, Office Supplies, Technology).
+
+```python
+import os
+
+DATA_RAW = os.path.join(PROJECT_ROOT, "data", "raw")
+
+df_clientes = spark.read.csv(
+    os.path.join(DATA_RAW, "sample_clientes.csv"),
+    header=True, inferSchema=True
+)
+df_pedidos = spark.read.csv(
+    os.path.join(DATA_RAW, "sample_pedidos.csv"),
+    header=True, inferSchema=True
+)
+
+df_clientes.createOrReplaceTempView("raw_clientes")
+df_pedidos.createOrReplaceTempView("raw_pedidos")
+
+spark.sql("INSERT INTO local.superstore.clientes SELECT * FROM raw_clientes")
+spark.sql("INSERT INTO local.superstore.pedidos SELECT * FROM raw_pedidos")
 ```
+
+**Resultado — dados particionados automaticamente por categoria:**
+
+```text
++----------------+-------+
+|        category|  total|
++----------------+-------+
+|        Furniture|      8|
+|  Office Supplies|      7|
+|      Technology|      5|
++----------------+-------+
+(20 rows)
+```
+
+---
 
 ### UPDATE
 
+O `UPDATE` no Iceberg usa **row-level deletes** — em vez de reescrever o arquivo todo, ele cria um arquivo de "delete" apontando as linhas removidas e um novo arquivo com os dados atualizados. Cada operação gera um novo **snapshot**.
+
 ```sql
-UPDATE local.ecommerce.pedidos
-SET status = 'aprovado'
-WHERE status = 'pendente'
+UPDATE local.superstore.pedidos
+SET ship_mode = 'First Class'
+WHERE ship_mode = 'Second Class'
 ```
+
+**Antes →** 10 pedidos com `Second Class`  
+**Depois →** 0 pedidos com `Second Class`, todos agora `First Class`
+
+```text
++--------------+-------+
+|     ship_mode|  total|
++--------------+-------+
+|   First Class|     20|  ← eram 'Second Class' + já eram 'First Class'
+|Standard Class|     10|  ← inalterados
++--------------+-------+
+```
+
+---
 
 ### DELETE
 
+O `DELETE` remove os registros permanentemente da visão atual, mas o snapshot anterior continua acessível via **Time Travel**.
+
 ```sql
-DELETE FROM local.ecommerce.pedidos
-WHERE valor_total < 400
+DELETE FROM local.superstore.pedidos
+WHERE profit < 0
 ```
+
+**Antes →** 20 pedidos (6 com `profit < 0`)  
+**Depois →** 14 pedidos (apenas registros com lucro positivo)
+
+```text
++--------------+-------+
+|        category|  total|
++--------------+-------+
+|        Furniture|      5|
+|  Office Supplies|      5|
+|      Technology|      4|
++--------------+-------+
+```
+
+---
 
 ### MERGE (UPSERT)
 
+O `MERGE` combina UPDATE e INSERT em uma única operação atômica: se o `order_id` já existe na tabela, atualiza; se não existe, insere.
+
 ```sql
-MERGE INTO local.ecommerce.pedidos AS destino
+MERGE INTO local.superstore.pedidos AS destino
 USING novos_pedidos AS origem
-ON destino.id_pedido = origem.id_pedido
+ON destino.order_id = origem.order_id AND destino.product_name = origem.product_name
 WHEN MATCHED THEN UPDATE SET *
 WHEN NOT MATCHED THEN INSERT *
 ```
+
+**Resultado:** 1 pedido existente teve a quantidade incrementada em +1, 1 pedido novo (`Apple MacBook Pro 16"`) foi inserido.
 
 ---
 
@@ -120,19 +233,13 @@ O Iceberg usa o conceito de **snapshots** — cada operação de escrita cria um
 # Ver snapshots disponíveis
 spark.sql("""
     SELECT snapshot_id, committed_at, operation
-    FROM local.ecommerce.pedidos.snapshots
+    FROM local.superstore.pedidos.snapshots
 """).show()
 
 # Time travel por snapshot_id
 spark.sql("""
-    SELECT * FROM local.ecommerce.pedidos
-    VERSION AS OF 1234567890
-""").show()
-
-# Time travel por timestamp
-spark.sql("""
-    SELECT * FROM local.ecommerce.pedidos
-    TIMESTAMP AS OF '2024-01-10 00:00:00'
+    SELECT * FROM local.superstore.pedidos
+    VERSION AS OF 8723956584378062988
 """).show()
 ```
 
@@ -144,13 +251,13 @@ Iceberg suporta evolução de schema **sem reescrever dados**:
 
 ```sql
 -- Adicionar coluna nova
-ALTER TABLE local.ecommerce.pedidos ADD COLUMN avaliacao INT
+ALTER TABLE local.superstore.pedidos ADD COLUMN customer_rating INT
 
 -- Renomear coluna
-ALTER TABLE local.ecommerce.pedidos RENAME COLUMN produto TO nome_produto
+ALTER TABLE local.superstore.pedidos RENAME COLUMN ship_mode TO modo_envio
 
 -- Remover coluna
-ALTER TABLE local.ecommerce.pedidos DROP COLUMN avaliacao
+ALTER TABLE local.superstore.pedidos DROP COLUMN customer_rating
 ```
 
 !!! success "Sem downtime"
@@ -160,17 +267,19 @@ ALTER TABLE local.ecommerce.pedidos DROP COLUMN avaliacao
 
 ## Estrutura de Arquivos no Storage
 
-```
-/tmp/iceberg/warehouse/ecommerce/pedidos/
+```text
+data/iceberg/superstore/pedidos/
 ├── metadata/
 │   ├── v1.metadata.json        ← Snapshot 1 (CREATE)
 │   ├── v2.metadata.json        ← Snapshot 2 (INSERT)
 │   ├── v3.metadata.json        ← Snapshot 3 (UPDATE)
 │   └── snap-xxxx-1.avro        ← Manifest list
 ├── data/
-│   ├── status=aprovado/
+│   ├── category=Furniture/
 │   │   └── part-00000.parquet
-│   └── status=pendente/
+│   ├── category=Office Supplies/
+│   │   └── part-00000.parquet
+│   └── category=Technology/
 │       └── part-00000.parquet
 ```
 

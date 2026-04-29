@@ -20,7 +20,7 @@ Apache Spark:       Disco → RAM → RAM  → RAM  → Disco
 ## Componentes do Ecossistema Spark
 
 | Módulo | Função |
-|---|---|
+| --- | --- |
 | **Spark Core** | Motor base, gerenciamento de tarefas e memória |
 | **Spark SQL** | Consultas SQL e DataFrames estruturados |
 | **Spark Streaming** | Processamento de dados em tempo real |
@@ -95,7 +95,7 @@ spark.sql("SELECT * FROM pessoas WHERE estado = 'SP'").show()
 ## RDD vs DataFrame vs Dataset
 
 | Conceito | Linguagem | Tipagem | Performance |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | RDD | Java/Scala/Python | Não tipado | Mais baixa |
 | DataFrame | Todas | Schema dinâmico | Alta |
 | Dataset | Java/Scala | Tipado em compile-time | Alta |

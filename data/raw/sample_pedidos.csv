@@ -1,0 +1,21 @@
+order_id,customer_id,order_date,ship_date,ship_mode,product_name,category,sub_category,sales,quantity,discount,profit
+CA-2016-152156,CG-12520,11/8/2016,11/11/2016,Second Class,Bush Somerset Collection Bookcase,Furniture,Bookcases,261.96,2,0,41.9136
+CA-2016-152156,CG-12520,11/8/2016,11/11/2016,Second Class,"Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back",Furniture,Chairs,731.94,3,0,219.582
+CA-2016-138688,DV-13045,6/12/2016,6/16/2016,Second Class,Self-Adhesive Address Labels for Typewriters by Universal,Office Supplies,Labels,14.62,2,0,6.8714
+CA-2014-167164,AG-10270,5/13/2014,5/15/2014,Second Class,Fellowes Super Stor/Drawer,Office Supplies,Storage,55.5,2,0,9.99
+CA-2014-143336,ZD-21925,8/27/2014,9/1/2014,Second Class,Newell 341,Office Supplies,Art,8.56,2,0,2.4824
+US-2017-156909,SF-20065,7/16/2017,7/18/2017,Second Class,"Global Deluxe Stacking Chair, Gray",Furniture,Chairs,71.372,2,0.3,-1.0196
+CA-2014-124394,TB-21520,10/17/2014,10/22/2014,Second Class,"GBC Standard Recycled Report Covers, Clear Plastic Sheets",Office Supplies,Binders,10.78,5,0.8,-17.248
+CA-2014-124394,TB-21520,10/17/2014,10/22/2014,Second Class,Case Logic 2.4GHz Wireless Keyboard,Technology,Accessories,119.976,3,0.2,-17.9964
+US-2016-158288,EH-13945,11/26/2016,11/28/2016,Second Class,Binding Machine Supplies,Office Supplies,Binders,78.759,9,0.7,-57.7566
+CA-2016-128916,MA-17560,8/18/2016,8/20/2016,Second Class,Staple-based wall hangings,Furniture,Furnishings,9.552,3,0.6,-3.8208
+US-2015-108966,SO-20335,10/11/2015,10/18/2015,Standard Class,Bretford CR4500 Series Slim Rectangular Table,Furniture,Tables,957.5775,5,0.45,-383.031
+US-2015-108966,SO-20335,10/11/2015,10/18/2015,Standard Class,Eldon Fold 'N Roll Cart System,Office Supplies,Storage,22.368,2,0.2,2.5164
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,"Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood",Furniture,Furnishings,48.86,7,0,14.1694
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,Newell 322,Office Supplies,Art,7.28,4,0,1.9656
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,Mitel 5320 IP Phone VoIP phone,Technology,Phones,907.152,6,0.2,90.7152
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,DXL Angle-View Binders with Locking Rings by Samsill,Office Supplies,Binders,18.504,3,0.2,5.7825
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,Belkin F5C206VTEL 6 Outlet Surge,Office Supplies,Appliances,114.9,5,0,34.47
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,Chromcraft Rectangular Conference Tables,Furniture,Tables,1706.184,9,0.2,85.3092
+CA-2014-115812,BH-11710,6/9/2014,6/14/2014,Standard Class,Konftel 250 Conference phone - Charcoal black,Technology,Phones,911.424,4,0.2,68.3568
+CA-2017-114412,AA-10480,4/15/2017,4/20/2017,Standard Class,Xerox 1967,Office Supplies,Paper,15.552,3,0.2,5.4432
